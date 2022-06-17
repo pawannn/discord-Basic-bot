@@ -1,5 +1,6 @@
 //Bot Token : OTg3MDY3NDU3NDM5MTcwNjMw.GNrgof.cxctzxcg94pFwNx7WvIe_uGcwYytQu2rxK2WdM
 
+const { channel } = require('diagnostics_channel');
 const Discord = require('discord.js'); //Discord.js
 const bot = new Discord.Client(); //Discord.js
 const fs = require('fs'); //File System
@@ -33,5 +34,14 @@ bot.on('message', (message) => { //Bot is messaged
     let args = messageArray.slice(1); //getting the arguments by removing the command from the array
     if(commandFile) {commandFile.run(bot,message,args);}; //if command file is found, run the command
 });
+
+bot.on('channelCreate', channel => { //Bot is created a channel
+    console.log(`Channel Created: ${channel.name}`); //Channel created message
+    channel.send(`Channel Created: ${channel.name}`); //Channel created message
+});
+
+bot.on('channelDelete', channel => ( //Bot is deleted a channel
+    console.log(`Channel Deleted: ${channel.name}`) //Channel deleted message
+))
 
 bot.login(token); //login the bot with the token
