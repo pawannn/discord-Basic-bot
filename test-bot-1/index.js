@@ -13,6 +13,7 @@ bot.on('ready', () =>{ //Bot is ready
         if(err) return console.log(err); //if error in opening file
         //hello.js => hello
         let jsfile = files.filter(f => f.split('.').pop() == 'js'); //filter files to only get js files
+        if(jsfile.length == 0) return console.log('Couldn\'t find commands.'); //if no js files found
     });
 });
 
