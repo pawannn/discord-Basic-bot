@@ -44,9 +44,15 @@ bot.on('channelDelete', channel => ( //Bot is deleted a channel
     console.log(`Channel Deleted: ${channel.name}`) //Channel deleted message
 ));
 
-bot.on('guildMemberUpdate', (oldMember, newMember) => {
-    if(oldMember.nickname !== newMember.nickname){
-        newMember.send('Your nickname has been changed to ' + newMember.nickname);
+bot.on('guildMemberUpdate', (oldMember, newMember) => { //Bot is updated a guild member
+    if(oldMember.nickname !== newMember.nickname){ //if nickname is updated
+        newMember.send('Your nickname has been changed to ' + newMember.nickname); //send message
+    }
+
+    let oldAvatar = oldMember.user.avatarURL();   //Old avatar url
+    let newAvtar = newMember.user.avatarURL();    //New avatar url
+    if(oldAvatar !== newAvtar){ //If old avatar url is not equal to new avatar url
+        newMember.send('Your avatar has been changed'); //Send message
     }
 });
 
