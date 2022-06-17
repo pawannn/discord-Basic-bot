@@ -2,7 +2,7 @@
 
 const { channel } = require('diagnostics_channel');
 const Discord = require('discord.js'); //Discord.js
-const bot = new Discord.Client(); //Discord.js
+const bot = new Discord.Client({ws : {intents : Discord.Intents.ALL}}); //Discord.js
 const fs = require('fs'); //File System
 const token = 'OTg3MDY3NDU3NDM5MTcwNjMw.GNrgof.cxctzxcg94pFwNx7WvIe_uGcwYytQu2rxK2WdM';   //Bot Token
 bot.commands = new Discord.Collection(); //Discord.js
@@ -42,6 +42,12 @@ bot.on('channelCreate', channel => { //Bot is created a channel
 
 bot.on('channelDelete', channel => ( //Bot is deleted a channel
     console.log(`Channel Deleted: ${channel.name}`) //Channel deleted message
-))
+));
+
+bot.on('guildMemberUpdate', (oldMember, newMember) => {
+    if(oldMember.nickname !== newMember.nickname){
+        newMember.send('Your nickname has been changed to ' + newMember.nickname);
+    }
+});
 
 bot.login(token); //login the bot with the token
