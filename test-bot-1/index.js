@@ -56,4 +56,13 @@ bot.on('guildMemberUpdate', (oldMember, newMember) => { //Bot is updated a guild
     }
 });
 
+bot.on('guildMemberAdd', member => {
+    let embed = new Discord.MessageEmbed()
+    .setTitle('Welcome to the server!')
+    .setDescription(`Thanks for joining our Server! We hope you have a great time here! \nMake Sure You stay active and have fun! with other members\n current member count : ${member.guild.number(count)}\n`)
+    .setAuthor(member.guild.owner.user.tag, member.guild.owner.user.avatarURL())
+    .setFooter(`${member.guild.name}`, member.guild.iconURL());
+    member.send(embed);
+});
+
 bot.login(token); //login the bot with the token
