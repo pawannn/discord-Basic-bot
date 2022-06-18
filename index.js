@@ -35,6 +35,12 @@ bot.on('message', (message) => { //Bot is messaged
     if(commandFile) {commandFile.run(bot,message,args);}; //if command file is found, run the command
 });
 
+bot.on('guildMemberAdd', (member) => { //When a member joins the server
+    let channel = member.guild.channels.cache.find(ch => ch.name === 'welcome'); //find the channel named 'welcome'
+    if(!channel) return; //if channel is not found
+    channel.send(`Welcome to the server, ${member}`); //send the message
+})
+
 bot.on('guildMemberUpdate', (oldMember, newMember) => { //Bot is updated a guild member
     if(oldMember.nickname !== newMember.nickname){ //if nickname is updated
         newMember.send('Your nickname has been changed to ' + newMember.nickname); //send message
