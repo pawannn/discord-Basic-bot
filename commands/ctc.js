@@ -22,9 +22,10 @@ exports.run = async (bot, message, args) => { //This is the code that is run whe
         ] 
     }); 
 
+
     member.roles.add(role); //This is the code that adds the role to the user.
     message.member.roles.add(role); //This is the code that adds the role to the message author.
-    message.channel.send(`${channel} Channel Has been Created!`); //This is the code that sends a message to the channel.
+    message.channel.send(`${channel} Channel Has been Created! by ${message.author.username}`); //This is the code that sends a message to the channel.
 }
 
 exports.help = {
