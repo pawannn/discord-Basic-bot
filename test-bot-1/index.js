@@ -35,15 +35,6 @@ bot.on('message', (message) => { //Bot is messaged
     if(commandFile) {commandFile.run(bot,message,args);}; //if command file is found, run the command
 });
 
-bot.on('channelCreate', channel => { //Bot is created a channel
-    console.log(`Channel Created: ${channel.name}`); //Channel created message
-    channel.send(`Channel Created: ${channel.name}`); //Channel created message
-});
-
-bot.on('channelDelete', channel => ( //Bot is deleted a channel
-    console.log(`Channel Deleted: ${channel.name}`) //Channel deleted message
-));
-
 bot.on('guildMemberUpdate', (oldMember, newMember) => { //Bot is updated a guild member
     if(oldMember.nickname !== newMember.nickname){ //if nickname is updated
         newMember.send('Your nickname has been changed to ' + newMember.nickname); //send message
@@ -59,7 +50,7 @@ bot.on('guildMemberUpdate', (oldMember, newMember) => { //Bot is updated a guild
 bot.on('guildMemberAdd', member => { //Bot is added a guild member
     let embed = new Discord.MessageEmbed() //Embed message
     .setTitle('Welcome to the server!') //Title of message
-    .setDescription(`Thanks for joining our Server! We hope you have a great time here! \nMake Sure You stay active and have fun! with other members\n **current member count** : ${member.guild.number(count)}\n`) //Description
+    .setDescription(`Thanks for joining our Server! We hope you have a great time here! \nMake Sure You stay active and have fun! with other members\n **current member count** : ${member.guild.memberCount}\n`) //Description
     .setAuthor(member.guild.owner.user.tag, member.guild.owner.user.avatarURL()) //Author of message
     .setFooter(`${member.guild.name}`, member.guild.iconURL()); //Footer of message
     member.send(embed); //Send embed message to the new member in DM

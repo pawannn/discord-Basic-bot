@@ -1,5 +1,5 @@
 exports.run = async(bot, message, args) => { //Command run
-    if(!message.member.hasPermission("MANAGE_MEMBERS")) return message.channel.send("You don't have permission to use this command."); //if user does not have permission to use this command
+    if(!message.member.hasPermission("MANAGE_MESSAGES")) return message.channel.send("You don't have permission to use this command."); //if user does not have permission to use this command
     let member = message.mentions.members.first(); //getting the member to be banned
     if(!member) { return message.channel.send('Invalid Member Given');} //if member is not mentioned
     if(member.role.highest.position > message.member.role.highest.position) { return message.channel.send('You cannot ban this member.')}; //if member has permission to manage messages
