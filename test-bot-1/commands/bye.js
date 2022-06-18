@@ -6,3 +6,5 @@ exports.run = async(bot, message, args) => { //run the command
 exports.help = {    //help command
     name : 'bye' //name of the command
 }
+
+//!bye [@mention]
