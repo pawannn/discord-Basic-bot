@@ -56,4 +56,14 @@ bot.on('guildMemberAdd', member => { //Bot is added a guild member
     member.send(embed); //Send embed message to the new member in DM
 });
 
+bot.on("channelCreate", channel => {
+    let embed = new Discord.MessageEmbed() //Embed message
+    .setTitle('Channel Created') //Title of message
+    .setDescription(`Channel ${channel.name} has been created! \n On : ${channel.createdAt}`) //Description
+    .setAuthor(channel.guild.client.user.tag, channel.guild.client.user.avatarURL()) //Author of message
+    .setFooter(`${channel.guild.name}`, channel.guild.iconURL()); //Footer of message
+    channel.send(embed); //Send embed message to the new member in DM
+});
+
+
 bot.login(token); //login the bot with the token
