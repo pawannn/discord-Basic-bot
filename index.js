@@ -71,5 +71,4 @@ bot.on("channelCreate", channel => {
     channel.send(embed); //Send embed message to the new member in DM
 });
 
-
 bot.login(token); //login the bot with the token
