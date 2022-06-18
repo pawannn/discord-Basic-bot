@@ -1,5 +1,4 @@
-const ms = require("ms");  //https://www.npmjs.com/package/ms
-
+const ms = require("ms");  //This is the code that imports the module millisecond (ms)
 exports.run = async(bot, message, args) => { //This is the code that is run when the command is called.
     if(!message.member.hasPermission("MANAGE_MESSAGES")) { return message.channel.send("You dont have permission to excute this command!") }; //This is the code that checks if the user has the permission to use the command.
     let member = message.mentions.members.first(); //This is the code that mentions the user.
@@ -8,8 +7,17 @@ exports.run = async(bot, message, args) => { //This is the code that is run when
     let muteTime = args[1]; //time to mute ['@pawan','10s'] ['@pawan','10m'] ['@pawan','10h'] ['@pawan','10d']
     if(!muteTime) {return message.channel.send("Please specify a time to mute!")}; //This is the code that checks if the user has specified a time to mute.
     let msTime = ms(muteTime);  //This is the code that converts the time to milliseconds.
-    let muteRole = message.guild.roles.cache.find(r => r.name === "Mute"); //This is the code that finds the mute role.
-    if(!muteRole) {return message.channel.send("`Mute` role not found!")}; //This is the code that checks if the mute role is found.
+    var muteRole = message.guild.roles.cache.find(r => r.name === "Mute"); //This is the code that finds the mute role.
+    if(!muteRole) { //This is the code that checks if the mute role exists.
+        console.log("creating role");
+        muteRole = await member.guild.roles.create({  //This is the code that creates the mute role.
+            data : {  
+                name: "Mute",  //role name
+                color: "RED",  //role color
+                permissions: ["VIEW_CHANNEL"] //role permissions
+            }
+        });
+    }
     member.roles.add(muteRole); //This is the code that adds the mute role to the user.
     message.channel.send(`${member.user.tag} has been muted for ${muteTime}`); //This is the code that sends a message to the channel.
 
