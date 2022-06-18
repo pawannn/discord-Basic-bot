@@ -18,7 +18,7 @@ exports.run = async (bot, message, args) => { //This is the code that is run whe
             {
                 id: message.guild.roles.everyone.id, //@everyone role
                 deny: ["VIEW_CHANNEL", "SEND_MESSAGES"] //permissions : cannot view and send messages
-            } 
+            } //end of permissions
         ] 
     }); 
 
