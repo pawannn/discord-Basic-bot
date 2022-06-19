@@ -1,14 +1,14 @@
 exports.run = async (bot, message, args) => { //This is the code that is run when the command is called.
     var channelname = args[args.length -1]; // !cvc @user channelname => channelname = channelname
     channelView = args[0]
-    if(channelView === "public"){
+    if(channelView === "public"){ //if the channel type is public
         console.log("public");
         var channel = await message.guild.channels.create(`${channelname}`, { //This is the code that creates a channel.
             type : "text", //channel type text
         }); 
     }
-    else if(channelView === "private"){
-        console.log("private");
+    else if(channelView === "private"){ //if the channel type is private
+        console.log("private"); 
         var member = message.mentions.members.first(); //This is the code that mentions the user.
         if(!member) {return message.channel.send("Please mention a valid member!")}; //This is the code that checks if the user has mentioned a valid member.
         var role = await message.guild.roles.create({ //This is the code that creates a role.
@@ -32,6 +32,9 @@ exports.run = async (bot, message, args) => { //This is the code that is run whe
         }); 
         member.roles.add(role); //This is the code that adds the role to the user.
         message.member.roles.add(role); //This is the code that adds the role to the message author.
+    }
+    else{ //if type of the channel is not specified
+        return message.channel.send("Please specify if the channel is public or private!") 
     }
     message.channel.send(`${channel} Channel Has been Created! by ${message.author.username}`); //This is the code that sends a message to the channel.
 }
