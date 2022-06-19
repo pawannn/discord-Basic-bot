@@ -35,12 +35,6 @@ bot.on('message', (message) => { //Bot is messaged
     if(commandFile) {commandFile.run(bot,message,args);}; //if command file is found, run the command
 });
 
-bot.on('guildMemberAdd', (member) => { //When a member joins the server
-    let channel = member.guild.channels.cache.find(ch => ch.name === 'welcome'); //find the channel named 'welcome'
-    if(!channel) return; //if channel is not found
-    channel.send(`Welcome to the server, ${member}`); //send the message
-})
-
 bot.on('guildMemberUpdate', (oldMember, newMember) => { //Bot is updated a guild member
     if(oldMember.nickname !== newMember.nickname){ //if nickname is updated
         newMember.send('Your nickname has been changed to ' + newMember.nickname); //send message
@@ -60,15 +54,19 @@ bot.on('guildMemberAdd', member => { //Bot is added a guild member
     .setAuthor(member.guild.owner.user.tag, member.guild.owner.user.avatarURL()) //Author of message
     .setFooter(`${member.guild.name}`, member.guild.iconURL()); //Footer of message
     member.send(embed); //Send embed message to the new member in DM
+
+    let welcomeChannel = member.guild.channels.cache.find(ch => ch.name === 'welcome'); //Find the channel named 'welcome'
+    if(!welcomeChannel) return; //If channel is not found
+    welcomeChannel.send(`Welcome to the server, ${member} \nMember's count : member.guild.memberCount`); //Send message to the channel
 });
 
-bot.on("channelCreate", channel => {
-    let embed = new Discord.MessageEmbed() //Embed message
-    .setTitle('Channel Created') //Title of message
-    .setDescription(`Channel ${channel.name} has been created! \n On : ${channel.createdAt}`) //Description
-    .setAuthor(channel.guild.client.user.tag, channel.guild.client.user.avatarURL()) //Author of message
-    .setFooter(`${channel.guild.name}`, channel.guild.iconURL()); //Footer of message
-    channel.send(embed); //Send embed message to the new member in DM
-});
+// bot.on("channelCreate", channel => {
+//     let embed = new Discord.MessageEmbed() //Embed message
+//     .setTitle('Channel Created') //Title of message
+//     .setDescription(`Channel ${channel.name} has been created! \n On : ${channel.createdAt}`) //Description
+//     .setAuthor(channel.guild.client.user.tag, channel.guild.client.user.avatarURL()) //Author of message
+//     .setFooter(`${channel.guild.name}`, channel.guild.iconURL()); //Footer of message
+//     channel.send(embed); //Send embed message to the new member in DM
+// });
 
 bot.login(token); //login the bot with the token

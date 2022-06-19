@@ -8,9 +8,9 @@ exports.run = async (bot, message, args) => { //Command run
     if(!role) { return message.channel.send("Please mention a valid role!") }; //if role is not mentioned
     if(!member.roles.cache.has(role.id)) { return message.channel.send("This member Does not have the sepcified role") }; //if member does not have the role
     member.roles.remove(role); //removing the role from the member
-    message.channel.send(`${member} Has been demoted from ${requestedRole}`); //sending a message to the channel
+    message.channel.send(`The ${requestedRole} role has been removed from ${member}`); //sending a message to the channel
 };
 
 exports.help = {
-    name : 'demote' //name of the command
+    name : 'removerole' //name of the command
 }

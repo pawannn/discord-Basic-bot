@@ -3,21 +3,22 @@ exports.run = async (bot, message, args) => { //This is the code that is run whe
     if(!member) {return message.channel.send("Please mention a valid member!")}; //This is the code that checks if the user has mentioned a valid member.
     let role = await message.guild.roles.create({ //This is the code that creates a role.
         data: { //This is the code that creates a role.
-            name: "Private Text Channel", //This is the code that creates a role.
-            color: "RED", //This is the code that creates a role.
+            name: "Private voice Channel", //This is the code that creates a role.
+            color: "GREEN", //This is the code that creates a role.
         }
     }) 
     let channelname = args[args.length -1]; // !cvc @user channelname => channelname = channelname
-    let channel = await message.guild.channels.create(`${channelname}`, { //This is the code that creates a channel.
-        type : "text", //channel type text
+    console.log(channelname);
+    await message.guild.channels.create(`${channelname}`, { //This is the code that creates a channel.
+        type : "Voice", //channel type text
         permissionOverwrites:  [ //permissions
             {
                 id: role.id, //specified role
-                allow : ["VIEW_CHANNEL", "SEND_MESSAGES"] //permissions :  can view and send messages
+                allow : ["VIEW_CHANNEL", "SPEAK"] //permissions :  can view and send messages
             },
             {
                 id: message.guild.roles.everyone.id, //@everyone role
-                deny: ["VIEW_CHANNEL", "SEND_MESSAGES"] //permissions : cannot view and send messages
+                deny: ["VIEW_CHANNEL", "SPEAK"] //permissions : cannot view and send messages
             } //end of permissions
         ] 
     }); 
@@ -25,11 +26,8 @@ exports.run = async (bot, message, args) => { //This is the code that is run whe
 
     member.roles.add(role); //This is the code that adds the role to the user.
     message.member.roles.add(role); //This is the code that adds the role to the message author.
-    message.channel.send(`${channel} Channel Has been Created! by ${message.author.username}`); //This is the code that sends a message to the channel.
 }
 
 exports.help = {
-    name : 'ctc'    //This is the code that shows the name of the command.
+    name : 'cvc'    //This is the code that shows the name of the command.
 }
-
-// !ctc [@mentions] [name of channel]

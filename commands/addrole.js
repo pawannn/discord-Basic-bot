@@ -9,9 +9,9 @@ exports.run = async (bot, message, args) => { //Command run
     if(member.roles.cache.has(role.id)) { return message.channel.send("This member already has this role!") }; //if member already has the role
     member.roles.add(role); //adding the role to the member
     message.member.roles.add(role); //adding the role to the user
-    message.channel.send(`${member} Has been assigned to the role ${requestedRole}`); //sending a message to the channel
+    message.channel.send(`The ${requestedRole} role Has been assigned to the ${member}`); //sending a message to the channel
 }
 
 exports.help = {
-    name : 'promote' //name of the command
+    name : 'addrole' //name of the command
 }
