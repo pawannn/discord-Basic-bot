@@ -33,7 +33,9 @@ exports.run = async (bot, message, args) => { //This is the code that is run whe
         member.roles.add(role); //This is the code that adds the role to the user.
         message.member.roles.add(role); //This is the code that adds the role to the message author.
     }
-
+    else{ //if type of the channel is not specified
+        return message.channel.send("Please specify if the channel is public or private!") 
+    }
 }
 
 exports.help = {
