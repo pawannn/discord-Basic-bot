@@ -5,6 +5,14 @@ exports.run = async (bot, message, args) => {
     const repliedto = await message.channel.messages.fetch(message.reference.messageID);
     if(!repliedto) {return message.channel.send("Please reply to the reported message and use the command")}
     const reportrole = message.guild.roles.cache.find(role => role.name === "Manage Reports");
+    if(!reportrole){
+        reportrole = await message.guild.roles.create({ //This is the code that creates a role.
+            data: { //This is the code that creates a role.
+                name: "Manage Reports", //This is the code that creates a role.
+                color: "GREEN", //This is the code that creates a role.
+            }
+        });
+    }
     let reportchannel = message.guild.channels.cache.find(ch => ch.name === "reported-messages");
     if(!reportchannel) {
         reportchannel = await message.guild.channels.create('reported-messages', { //This is the code that creates a channel.
