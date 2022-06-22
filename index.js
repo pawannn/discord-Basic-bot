@@ -1,6 +1,5 @@
 //Bot Token : OTg3MDY3NDU3NDM5MTcwNjMw.GNrgof.cxctzxcg94pFwNx7WvIe_uGcwYytQu2rxK2WdM
 
-const { channel } = require('diagnostics_channel');
 const Discord = require('discord.js'); //Discord.js
 const bot = new Discord.Client({ws : {intents : Discord.Intents.ALL}}); //Discord.js
 const fs = require('fs'); //File System

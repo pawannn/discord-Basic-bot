@@ -15,10 +15,18 @@ exports.run = async(bot, message, args) => { //This is the code that is run when
             data : {  
                 name: "Mute",  //role name
                 color: "RED",  //role color
-                permissions: ["VIEW_CHANNEL"] //role permissions
             }
         });
     }
+    member.guild.channels.cache.array().forEach((channel) => { //select all channels 
+        channel.overwritePermissions([ //overwrite the permission for each channel
+            {
+            id: muteRole,  //select the role
+            deny: ['SEND_MESSAGES'], //deny sending messages
+            },
+        ]);
+    });
+
     member.roles.add(muteRole); //This is the code that adds the mute role to the user.
     message.channel.send(`${member.user.tag} has been muted for ${muteTime}`); //This is the code that sends a message to the channel.
 
