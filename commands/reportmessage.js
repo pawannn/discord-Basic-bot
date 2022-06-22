@@ -4,7 +4,7 @@ exports.run = async (bot, message, args) => {
     const messageAuthor = message.author.username;
     const repliedto = await message.channel.messages.fetch(message.reference.messageID);
     if(!repliedto) {return message.channel.send("Please reply to the reported message and use the command")}
-    const Modrole = message.guild.roles.cache.find(role => role.name === "Moderator");
+    const reportrole = message.guild.roles.cache.find(role => role.name === "Manage Reports");
     let reportchannel = message.guild.channels.cache.find(ch => ch.name === "reported-messages");
     if(!reportchannel) {
         reportchannel = await message.guild.channels.create('reported-messages', { //This is the code that creates a channel.
@@ -15,10 +15,8 @@ exports.run = async (bot, message, args) => {
                     deny: ["SEND_MESSAGES"]
                 },
                 {
-                    id : Modrole.id, //Moderator role
-                    allow : ["VIEW_CHANNEL","SEND_MESSAGES"]
-                }
-
+                    id : reportrole.id, //role who can manage the reports
+                },
             ]
         }); 
     }
