@@ -1,4 +1,5 @@
 exports.run = async (bot, message, args) => { //This is the code that is run when the command is called.
+    if(!message.member.hasPermission("MANAGE_MESSAGES")) { return message.channel.send("You dont have permission to excute this command!") }; //This is the code that checks if the user has the permission to use the command.
     var channelname = args[args.length -1]; // !cvc @user channelname => channelname = channelname
     channelView = args[0]
     if(channelView === "public"){ //if the channel type is public
