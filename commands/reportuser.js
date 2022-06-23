@@ -13,6 +13,7 @@ exports.run = async(bot,message,args) => {
                 color: "GREEN", //This is the code that creates a role.
             }
         });
+        message.channel.send("`Manage Reports` Role has been created to manage the reports \n Aissin the role to the person who can manage the reports.");
     }
     let reportchannel = message.guild.channels.cache.find(ch => ch.name === "reported-users")
     if(!reportchannel){

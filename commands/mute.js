@@ -1,6 +1,6 @@
 const ms = require("ms");  //This is the code that imports the module millisecond (ms)
 exports.run = async(bot, message, args) => { //This is the code that is run when the command is called.
-    if(!message.member.hasPermission("MANAGE_MESSAGES")) { return message.channel.send("You dont have permission to excute this command!") }; //This is the code that checks if the user has the permission to use the command.
+    if(!message.member.hasPermission("MANAGE_MESSAGES") || !message.member.hasPermission("OWNER")) { return message.channel.send("You dont have permission to excute this command!") }; //This is the code that checks if the user has the permission to use the command.
     let member = message.mentions.members.first(); //This is the code that mentions the user.
     if(member.roles.highest.position >= message.member.roles.highest.position) { return message.channel.send('You cannot Mute this member.')}; //This is the code that checks if the user has the permission to use the command.
     if(!member) { return message.channel.send("Please mention a valid member!") }; //This is the code that checks if the user has mentioned a valid member.
