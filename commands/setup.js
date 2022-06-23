@@ -1,4 +1,4 @@
-const { Permissions } = require('discord.js');
+const { Permissions, PermissionOverwrites } = require('discord.js');
 
 exports.run = async (bot, message, args) => {
     console.log("setup")
@@ -58,17 +58,60 @@ exports.run = async (bot, message, args) => {
     }
 
     //checking if proper roles are assigned to the owner
-    if(!message.member.roles.cache.some(role => role.name === modRole)){ 
+    if(!message.member.roles.cache.find(r => r.name === modRole.name)){ 
         message.member.roles.add(modRole);
-        message.channel.send("`Moderator` role has been assigned to the owner");
+        message.channel.send(`${modRole.name} role has been assigned to the owner`);
     };
-    if(!message.member.roles.cache.some(role => role.name === reportrole)){ 
+    if(!message.member.roles.cache.find(r => r.name === reportrole.name)){ 
         message.member.roles.add(reportrole)
-        message.channel.send("`Manage Reports` role has been assigned to the owner")
+        message.channel.send(`${reportrole.name} role has been assigned to the owner`)
+    };
+
+    //create categories
+    let reportCategory = message.guild.channels.cache.find(channel => channel.type == "category" && channel.name == "REPORTS");
+    if(!reportCategory){
+        reportCategory = await message.guild.channels.create("REPORTS", {type : "category"});
+        message.channel.send("Created `REPORTS` category");
     }
 
     //create channels
+    let reportmessagechannel = message.guild.channels.cache.find(ch => ch.name === "reported-messages");
+    if(!reportmessagechannel){
+        reportmessagechannel = await message.guild.channels.create("REPORTED MESSAGES", {
+            type : "text",
+            permissionOverwrites: [
+                {
+                    id: message.guild.roles.everyone.id, //@everyone role
+                    deny: ["SEND_MESSAGES"]
+                },
+                {
+                    id : reportrole.id, //role who can manage the reports
+                },
+            ]
+        });
+        await reportmessagechannel.setParent(reportCategory.id);
+        message.channel.send(`${reportmessagechannel} has been created`)
+    }
 
+    let reporteduserschannel = message.guild.channels.cache.find(ch => ch.name === "reported-users");
+    if(!reporteduserschannel){
+        reporteduserschannel = await message.guild.channels.create('REPORTED USERS', {
+            type : "text",
+            PermissionOverwrites: [
+                {
+                    id: message.guild.roles.everyone.id, //@everyone role
+                    deny: ["SEND_MESSAGES"]
+                },
+                {
+                    id : reportrole.id, //role who can manage the reports
+                }
+            ]
+        })
+        await reporteduserschannel.setParent(reportCategory.id);
+        message.channel.send(`${reporteduserschannel} has been created`)
+    }
+
+    
     //setup completed
     message.channel.send("The Setup is Done! \n You can Now enjoy our services")
 }
