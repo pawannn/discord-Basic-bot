@@ -68,10 +68,22 @@ exports.run = async (bot, message, args) => {
     };
 
     //create categories
+
+    //report category
     let reportCategory = message.guild.channels.cache.find(channel => channel.type == "category" && channel.name == "REPORTS");
     if(!reportCategory){
         reportCategory = await message.guild.channels.create("REPORTS", {type : "category"});
         message.channel.send("Created `REPORTS` category");
+    }
+
+    //welcome category
+    var welcomecategory = message.guild.channels.cache.find(ch =>  ch.type == "category" && ch.name == "WELCOME");
+    if(!welcomecategory){
+        welcomecategory = await message.guild.channels.create("WELCOME", {type : "category"})
+        welcomecategory.setPosition(0);
+    }
+    else{
+        welcomecategory.setPosition(0);
     }
 
     //create channels
@@ -116,7 +128,25 @@ exports.run = async (bot, message, args) => {
     else {
         await reporteduserschannel.setParent(reportCategory.id);
     }
-    
+
+    let welcomeChannel = message.guild.channels.cache.find(ch => ch.name === "welcome-members");
+    if(!welcomeChannel){
+        welcomeChannel = await message.guild.channels.create("welcome-members", {type : "text"});
+        welcomeChannel.setParent(welcomecategory.id);
+    }
+    else{
+        welcomeChannel.setParent(welcomecategory.id);
+    }
+
+    let ruleschannel = message.guild.channels.cache.find(ch => ch.name === "rules");
+    if(!ruleschannel){
+        ruleschannel = await message.guild.channels.create("rules", {type : "text"});
+        ruleschannel.setParent(welcomecategory.id);
+    }
+    else{
+        ruleschannel.setParent(welcomecategory.id);
+    }
+
     //setup completed
     message.channel.send("The Setup is Done! \n You can Now enjoy our services")
 }

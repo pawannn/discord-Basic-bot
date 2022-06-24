@@ -54,18 +54,23 @@ bot.on('guildMemberAdd', member => { //Bot is added a guild member
     .setFooter(`${member.guild.name}`, member.guild.iconURL()); //Footer of message
     member.send(embed); //Send embed message to the new member in DM
 
-    let welcomeChannel = member.guild.channels.cache.find(ch => ch.name === 'welcome'); //Find the channel named 'welcome'
-    if(!welcomeChannel) return; //If channel is not found
-    welcomeChannel.send(`Welcome to the server, ${member} \nMember's count : member.guild.memberCount`); //Send message to the channel
-});
+    let welcomeChannel = member.guild.channels.cache.find(ch => ch.name === 'welcome-members'); //Find the channel named 'welcome'
+    if(!welcomeChannel){
+        welcomeChannel = message.guild.channels.create("welcome-members", {type : "text"});
+        var welcomecategory = message.guild.channels.cache.find(ch =>  ch.type == "category" && ch.name == "WELCOME");
+        if(!welcomecategory){
+            welcomecategory = await message.guild.channels.create("WELCOME", {type : "category"})
+            welcomecategory.setPosition(0);
+        }
+        else{
+            welcomecategory.setPosition(0);
+        }
+    }
+    else {
+        welcomeChannel.setParent(welcomecategory.id);
+    }
+    welcomeChannel.send(`Welcome to the server, ${member} \nMember's count :${member.guild.memberCount}`); //Send message to the channel
 
-// bot.on("channelCreate", channel => {
-//     let embed = new Discord.MessageEmbed() //Embed message
-//     .setTitle('Channel Created') //Title of message
-//     .setDescription(`Channel ${channel.name} has been created! \n On : ${channel.createdAt}`) //Description
-//     .setAuthor(channel.guild.client.user.tag, channel.guild.client.user.avatarURL()) //Author of message
-//     .setFooter(`${channel.guild.name}`, channel.guild.iconURL()); //Footer of message
-//     channel.send(embed); //Send embed message to the new member in DM
-// });
+});
 
 bot.login(token); //login the bot with the token

@@ -1,12 +1,13 @@
 exports.run = async (bot, message, args) => {
     if(!message.member.hasPermission("MANAGE_MESSAGES")) {return message.channels.send("You cannot execute this command!")}
-    let reportCategory = await message.guild.channels.create("hello", {type : "category"});
-    console.log(reportCategory);
-    categoryName = "HELLO";
-    let xyz = await message.guild.channels.create(`yo`, { //This is the code that creates a channel.
-        type : "text", //channel type text
-    }); 
-    await xyz.setParent(reportCategory.id);
+    let categoryname =  args[0];
+    if(!categoryname){ return message.channel.send("Please give a valid category name");}
+    let check = message.guild.channels.cache.find(ch => ch.name === categoryname && ch.type === "category");
+    if(!check){
+        await message.guild.channels.create(categoryname, {type : "category"});
+    }else {
+        message.channel.send(`${categoryname} category already exist`);
+    }
 }
 
 exports.help = {
