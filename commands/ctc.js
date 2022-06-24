@@ -24,27 +24,28 @@ exports.run = async (bot, message, args) => { //This is the code that is run whe
                 color: "RED", //This is the code that creates a role.
             }
         });
+        member.roles.add(role); //This is the code that adds the role to the user.
+        message.member.roles.add(role); //This is the code that adds the role to the message author.
         let channelname = args.slice(2).join("-");
+        if(!channelname){ channelname = message.author.username; }
         let pritextCategory = message.guild.channels.cache.find(channel => channel.type == "category" && channel.name == "private-text-channels");
-        if(!pritextCategory) {
-            pritextCategory = await message.guild.channels.create("private-text-channels", {type : "category"});
+        if(!pritextCategory) { 
+            pritextCategory = await message.guild.channels.create("private-text-channels", {type : "category" });
         }
-        var channel = await message.guild.channels.create(`pritext-${channelname}`, { //This is the code that creates a channel.
-            type : "text", //channel type text
-            permissionOverwrites:  [ //permissions
+        var privatechannel = await message.guild.channels.create(`pritext-${channelname}`, { //This is the code that creates a channel.
+            type : "text" //channel type text
+        }); 
+        privatechannel.setParent(pritextCategory.id);
+        privatechannel.overwritePermissions([
                 {
                     id: role.id, //specified role
                     allow : ["VIEW_CHANNEL", "SEND_MESSAGES"] //permissions :  can view and send messages
                 },
                 {
                     id: message.guild.roles.everyone.id, //@everyone role
-                    deny: ["VIEW_CHANNEL", "SEND_MESSAGES"] //permissions : cannot view and send messages
+                    deny: ["VIEW_CHANNEL", "SEND_MESSAGES"] //permissions : cannot view and send messages 
                 } //end of permissions
-            ] 
-        }); 
-        member.roles.add(role); //This is the code that adds the role to the user.
-        message.member.roles.add(role); //This is the code that adds the role to the message author.
-        await channel.setParent(pritextCategory.id);
+            ]);
     }
     else{ //if type of the channel is not specified
         return message.channel.send("Please specify if the channel is public or private!") 

@@ -24,7 +24,9 @@ exports.run = async (bot, message, args) => { //This is the code that is run whe
                 name: "Private voice Channel", //This is the code that creates a role.
                 color: "PINK", //This is the code that creates a role.
             }
-        }) 
+        });
+        member.roles.add(role); //This is the code that adds the role to the user.
+        message.member.roles.add(role); //This is the code that adds the role to the message author.
         let channelname = args.slice(2).join("-");
         if(!channelname || channelname.length == 0){ channelname = message.author.username;}
         let privoiceCategory = message.guild.channels.cache.find(channel => channel.type == "category" && channel.name == "private-voice-channels");
@@ -33,22 +35,20 @@ exports.run = async (bot, message, args) => { //This is the code that is run whe
         }
          // !cvc @user channelname => channelname = channelname
         console.log(channelname);
-        let privatechannel = await message.guild.channels.create(`privoice-${channelname}`, { //This is the code that creates a channel.
+        var privatechannel = await message.guild.channels.create(`privoice-${channelname}`, { //This is the code that creates a channel.
             type : "Voice", //channel type text
-            permissionOverwrites:  [ //permissions
-                {
-                    id: role.id, //specified role
-                    allow : ["VIEW_CHANNEL", "SPEAK", "SEND_MESSAGES"] //permissions :  can view and send messages
-                },
-                {
-                    id: message.guild.roles.everyone.id, //@everyone role
-                    deny: ["VIEW_CHANNEL", "SPEAK", "SEND_MESSAGES"] //permissions : cannot view and send messages
-                } //end of permissions
-            ] 
         }); 
-        await privatechannel.setParent(privoiceCategory);
-        member.roles.add(role); //This is the code that adds the role to the user.
-        message.member.roles.add(role); //This is the code that adds the role to the message author.
+        privatechannel.setParent(privoiceCategory);
+        privatechannel.overwritePermissions([
+            {
+                id: role.id, //specified role
+                allow : ["VIEW_CHANNEL", "SPEAK"] //permissions :  can view and send messages
+            },
+            {
+                id: message.guild.roles.everyone.id, //@everyone role
+                deny: ["VIEW_CHANNEL", "SPEAK"] //permissions : cannot view and send messages
+            } //end of permissions
+        ]);
     }
     else{ //if type of the channel is not specified
         return message.channel.send("Please specify if the channel is public or private!") 
