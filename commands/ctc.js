@@ -1,15 +1,21 @@
 exports.run = async (bot, message, args) => { //This is the code that is run when the command is called.
-    if(!message.member.hasPermission("MANAGE_MESSAGES")) { return message.channel.send("You dont have permission to excute this command!") }; //This is the code that checks if the user has the permission to use the command.
-    var channelname = args[args.length -1]; // !cvc @user channelname => channelname = channelname
     channelView = args[0]
     if(channelView === "public"){ //if the channel type is public
         console.log("public");
-        var channel = await message.guild.channels.create(`${channelname}`, { //This is the code that creates a channel.
+        var channelname = args.slice(1).join("-");
+        let pubtextCategory = message.guild.channels.cache.find(channel => channel.type == "category" && channel.name == "public-text-channels");
+        if(!pubtextCategory) {
+            pubtextCategory = await message.guild.channels.create("public-text-channels", {type : "category"});
+        }
+        if(!channelname || channelname.length == 0){ channelname = message.author.username;}
+        var channel = await message.guild.channels.create(`pubtext-${channelname}`, { //This is the code that creates a channel.
             type : "text", //channel type text
         }); 
+        channel.setParent(pubtextCategory);
     }
     else if(channelView === "private"){ //if the channel type is private
         console.log("private"); 
+        if(!message.member.hasPermission("MANAGE_MESSAGES")) { return message.channel.send("You dont have permission to create private text channel!") }; //This is the code that checks if the user has the permission to use the command.
         var member = message.mentions.members.first(); //This is the code that mentions the user.
         if(!member) {return message.channel.send("Please mention a valid member!")}; //This is the code that checks if the user has mentioned a valid member.
         var role = await message.guild.roles.create({ //This is the code that creates a role.
@@ -17,8 +23,13 @@ exports.run = async (bot, message, args) => { //This is the code that is run whe
                 name: "Private Text Channel", //This is the code that creates a role.
                 color: "RED", //This is the code that creates a role.
             }
-        }) 
-        var channel = await message.guild.channels.create(`privoice-${channelname}`, { //This is the code that creates a channel.
+        });
+        let channelname = args.slice(2).join("-");
+        let pritextCategory = message.guild.channels.cache.find(channel => channel.type == "category" && channel.name == "private-text-channels");
+        if(!pritextCategory) {
+            pritextCategory = await message.guild.channels.create("private-text-channels", {type : "category"});
+        }
+        var channel = await message.guild.channels.create(`pritext-${channelname}`, { //This is the code that creates a channel.
             type : "text", //channel type text
             permissionOverwrites:  [ //permissions
                 {
@@ -33,6 +44,7 @@ exports.run = async (bot, message, args) => { //This is the code that is run whe
         }); 
         member.roles.add(role); //This is the code that adds the role to the user.
         message.member.roles.add(role); //This is the code that adds the role to the message author.
+        await channel.setParent(pritextCategory.id);
     }
     else{ //if type of the channel is not specified
         return message.channel.send("Please specify if the channel is public or private!") 
