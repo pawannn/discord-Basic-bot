@@ -92,6 +92,9 @@ exports.run = async (bot, message, args) => {
         await reportmessagechannel.setParent(reportCategory.id);
         message.channel.send(`${reportmessagechannel} has been created`)
     }
+    else {
+        await reportmessagechannel.setParent(reportCategory.id);
+    }
 
     let reporteduserschannel = message.guild.channels.cache.find(ch => ch.name === "reported-users");
     if(!reporteduserschannel){
@@ -110,7 +113,9 @@ exports.run = async (bot, message, args) => {
         await reporteduserschannel.setParent(reportCategory.id);
         message.channel.send(`${reporteduserschannel} has been created`)
     }
-
+    else {
+        await reporteduserschannel.setParent(reportCategory.id);
+    }
     
     //setup completed
     message.channel.send("The Setup is Done! \n You can Now enjoy our services")

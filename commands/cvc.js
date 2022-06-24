@@ -3,7 +3,9 @@ exports.run = async (bot, message, args) => { //This is the code that is run whe
     channelView = args[0];
     if(channelView === "public"){ //if the channel type is public
         console.log("public");
-        await message.guild.channels.create(`${args[args.length -1]}`, { //This is the code that creates a channel.
+        let channelname = args.slice(1).join("-"); 
+        if(!channelname){ channelname = message.member.username;}
+        await message.guild.channels.create(`pubtext-${channelname}`, { //This is the code that creates a channel.
             type : "Voice", //channel type voice
         });
     }
@@ -18,7 +20,7 @@ exports.run = async (bot, message, args) => { //This is the code that is run whe
         }) 
         let channelname = args[args.length -1]; // !cvc @user channelname => channelname = channelname
         console.log(channelname);
-        await message.guild.channels.create(`${channelname}`, { //This is the code that creates a channel.
+        await message.guild.channels.create(`pritext-${channelname}`, { //This is the code that creates a channel.
             type : "Voice", //channel type text
             permissionOverwrites:  [ //permissions
                 {

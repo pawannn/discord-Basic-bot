@@ -18,7 +18,7 @@ exports.run = async (bot, message, args) => { //This is the code that is run whe
                 color: "RED", //This is the code that creates a role.
             }
         }) 
-        var channel = await message.guild.channels.create(`${channelname}`, { //This is the code that creates a channel.
+        var channel = await message.guild.channels.create(`privoice-${channelname}`, { //This is the code that creates a channel.
             type : "text", //channel type text
             permissionOverwrites:  [ //permissions
                 {
