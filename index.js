@@ -46,20 +46,13 @@ bot.on('guildMemberUpdate', (oldMember, newMember) => { //Bot is updated a guild
     }
 });
 
-bot.on('guildMemberAdd', member => { //Bot is added a guild member
-    let embed = new Discord.MessageEmbed() //Embed message
-    .setTitle('Welcome to the server!') //Title of message
-    .setDescription(`Thanks for joining our Server! We hope you have a great time here! \nMake Sure You stay active and have fun! with other members\n **current member count** : ${member.guild.memberCount}\n`) //Description
-    .setAuthor(member.guild.owner.user.tag, member.guild.owner.user.avatarURL()) //Author of message
-    .setFooter(`${member.guild.name}`, member.guild.iconURL()); //Footer of message
-    member.send(embed); //Send embed message to the new member in DM
-
-    let welcomeChannel = member.guild.channels.cache.find(ch => ch.name === 'welcome-members'); //Find the channel named 'welcome'
+function checkWelcomeChannel(){
+    var welcomeChannel = member.guild.channels.cache.find(ch => ch.name === 'welcome-members'); //Find the channel named 'welcome'
     if(!welcomeChannel){
         welcomeChannel = message.guild.channels.create("welcome-members", {type : "text"});
         var welcomecategory = message.guild.channels.cache.find(ch =>  ch.type == "category" && ch.name == "WELCOME");
         if(!welcomecategory){
-            welcomecategory = await message.guild.channels.create("WELCOME", {type : "category"})
+            welcomecategory = message.guild.channels.create("WELCOME", {type : "category"})
             welcomecategory.setPosition(0);
         }
         else{
@@ -69,8 +62,23 @@ bot.on('guildMemberAdd', member => { //Bot is added a guild member
     else {
         welcomeChannel.setParent(welcomecategory.id);
     }
+}
+
+bot.on('guildMemberAdd', member => { //Bot is added a guild member
+    let embed = new Discord.MessageEmbed() //Embed message
+    .setTitle('Welcome to the server!') //Title of message
+    .setDescription(`Thanks for joining our Server! We hope you have a great time here! \nMake Sure You stay active and have fun! with other members\n **current member count** : ${member.guild.memberCount}\n`) //Description
+    .setAuthor(member.guild.owner.user.tag, member.guild.owner.user.avatarURL()) //Author of message
+    .setFooter(`${member.guild.name}`, member.guild.iconURL()); //Footer of message
+    member.send(embed); //Send embed message to the new member in DM
+    checkWelcomeChannel();
     welcomeChannel.send(`Welcome to the server, ${member} \nMember's count :${member.guild.memberCount}`); //Send message to the channel
 
+});
+
+bot.on("guildMemberRemove", member => {
+    checkWelcomeChannel();
+    welcomeChannel.send(`${member} Just Left the server`);
 });
 
 bot.login(token); //login the bot with the token

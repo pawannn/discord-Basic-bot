@@ -2,7 +2,7 @@ const { Permissions, PermissionOverwrites } = require('discord.js');
 
 exports.run = async (bot, message, args) => {
     console.log("setup")
-    if(!message.member.hasPermission("MANAGE_GUILD")) { return message.channel.send("You dont have permission to excute this command!") }; //This is the code that checks if the user has the permission to use the command.
+    if(!message.member.hasPermission("MANAGE_GUILD")) { return message.channel.send("You dont have permission to excute this command! \n This command can be executed only by the Owner of the server!") }; //This is the code that checks if the user has the permission to use the command.
     
     //roles setup
     let modRole = message.guild.roles.cache.find(r => r.name === "Moderator");
@@ -68,7 +68,6 @@ exports.run = async (bot, message, args) => {
     };
 
     //create categories
-
     //report category
     let reportCategory = message.guild.channels.cache.find(channel => channel.type == "category" && channel.name == "REPORTS");
     if(!reportCategory){
