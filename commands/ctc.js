@@ -12,6 +12,7 @@ exports.run = async (bot, message, args) => { //This is the code that is run whe
             type : "text", //channel type text
         }); 
         channel.setParent(pubtextCategory);
+        message.channel.send(`${channel} Channel Has been Created! by ${message.author.username}`); //This is the code that sends a message to the channel.
     }
     else if(channelView === "private"){ //if the channel type is private
         console.log("private"); 
@@ -46,11 +47,11 @@ exports.run = async (bot, message, args) => { //This is the code that is run whe
                     deny: ["VIEW_CHANNEL", "SEND_MESSAGES"] //permissions : cannot view and send messages 
                 } //end of permissions
             ]);
+            message.channel.send(`${privatechannel} Channel Has been Created! by ${message.author.username}`); //This is the code that sends a message to the channel.
     }
     else{ //if type of the channel is not specified
         return message.channel.send("Please specify if the channel is public or private!") 
     }
-    message.channel.send(`${channel} Channel Has been Created! by ${message.author.username}`); //This is the code that sends a message to the channel.
 }
 
 exports.help = {
