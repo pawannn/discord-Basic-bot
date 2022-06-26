@@ -34,6 +34,8 @@ exports.run = async (bot, message, args) => {
         })
         message.channel.send("`Moderator` Role has been created. \n Assign the role to the user who can manage the server");
     }
+    modRole.setHoist(true);
+    modRole.setPosition(1);
 
     let reportrole =  message.guild.roles.cache.find(r => r.name === "Manage Reports");
     if(!reportrole) {
@@ -45,6 +47,8 @@ exports.run = async (bot, message, args) => {
         });
         message.channel.send("`Manage Reports` Role has been created to manage the reports \n Aissin the role to the person who can manage the reports.");
     }
+    reportrole.setHoist(true);
+    reportrole.setPosition(2);
 
     let MuteRole = message.guild.roles.cache.find(r => r.name === "Mute");
     if(!MuteRole) {
