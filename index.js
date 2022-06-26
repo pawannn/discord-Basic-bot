@@ -38,7 +38,7 @@ bot.on('guildMemberUpdate', (oldMember, newMember) => { //Bot is updated a guild
     if(oldMember.nickname !== newMember.nickname){ //if nickname is updated
         newMember.send('Your nickname has been changed to ' + newMember.nickname); //send message
     }
-
+ 
     let oldAvatar = oldMember.user.avatarURL();   //Old avatar url
     let newAvtar = newMember.user.avatarURL();    //New avatar url
     if(oldAvatar !== newAvtar){ //If old avatar url is not equal to new avatar url

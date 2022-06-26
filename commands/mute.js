@@ -1,7 +1,7 @@
 const ms = require("ms");  //This is the code that imports the module millisecond (ms)
 exports.run = async(bot, message, args) => { //This is the code that is run when the command is called.
     if(!message.member.hasPermission("MANAGE_MESSAGES") || !message.member.hasPermission("OWNER")) { return message.channel.send("You dont have permission to excute this command!") }; //This is the code that checks if the user has the permission to use the command.
-    let member = message.mentions.members.first(); //This is the code that mentions the user.
+    var member = message.mentions.members.first(); //This is the code that mentions the user.
     if(member.roles.highest.position >= message.member.roles.highest.position) { return message.channel.send('You cannot Mute this member.')}; //This is the code that checks if the user has the permission to use the command.
     if(!member) { return message.channel.send("Please mention a valid member!") }; //This is the code that checks if the user has mentioned a valid member.
     //to do 
@@ -31,8 +31,15 @@ exports.run = async(bot, message, args) => { //This is the code that is run when
     message.channel.send(`${member.user.tag} has been muted for ${muteTime}`); //This is the code that sends a message to the channel.
 
     setTimeout(() => { //This is the code that runs after the time specified.
-        member.roles.remove(muteRole); //This is the code that removes the mute role from the user.
-        message.channel.send(`${member.user.tag} has been unmuted!`); //This is the code that sends a message to the channel.
+        if(member.roles.cache.has(muteRole.id)){
+            console.log("User does not have muterole");
+            member.roles.remove(muteRole); //This is the code that removes the mute role from the user.
+            message.channel.send(`${member.user.tag} has been unmuted!`); //This is the code that sends a message to the channel.
+            console.log("Message Executed");
+        }
+        else{
+            return;
+        }
     }, msTime); //This is the code that sets the time to mute.
 }
 

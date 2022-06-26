@@ -6,7 +6,7 @@ exports.run = async(bot, message, args) => {
     if(!member){ return message.channel.send("Please meantion a valid member"); }
     if(member.roles.cache.has(MuteRole.id)){
         member.roles.remove(MuteRole.id);
-        return message.channel.send(`${member} has been unmuted!`);
+        return message.channel.send(`${member.user.tag} has been unmuted!`);
     }
     else {
         return message.channel.send("Member is not muted");
