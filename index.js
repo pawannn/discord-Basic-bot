@@ -1,9 +1,7 @@
-//Bot Token : OTg3MDY3NDU3NDM5MTcwNjMw.GNrgof.cxctzxcg94pFwNx7WvIe_uGcwYytQu2rxK2WdM
-
 const Discord = require('discord.js'); //Discord.js
 const bot = new Discord.Client({ws : {intents : Discord.Intents.ALL}}); //Discord.js
 const fs = require('fs'); //File System
-const token = 'OTg3MDY3NDU3NDM5MTcwNjMw.GNrgof.cxctzxcg94pFwNx7WvIe_uGcwYytQu2rxK2WdM';   //Bot Token
+const token = 'Your Token Here';   //Bot Token
 bot.commands = new Discord.Collection(); //Discord.js
 
 bot.on('ready', () =>{ //Bot is ready
